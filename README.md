@@ -4,6 +4,8 @@
 
 This is a card for the [bhyve-home-assistant](https://github.com/sebr/bhyve-home-assistant) integration.
 
+![Screenshot of Orbit B-Hyve Card](screenshot.png)
+
 ## Install
 
 1. Navigate to the HACS add-on. Go to "Frontend", if HACS has separate pages for Integrations and Frontend.

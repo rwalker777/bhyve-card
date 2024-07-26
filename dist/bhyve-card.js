@@ -43,13 +43,13 @@ class BhyveCard extends LitElement {
   }
 
   wateringProgram(programName) {
-    if(!(programName in this._switchState)) {
+    if(!(programName in this._switchState.attributes)) {
       return [];
     }
-    if(!this._switchState[programName].enabled) {
+    if(!this._switchState.attributes[programName].enabled) {
       return [];
     }
-   return this._switchState[programName].watering_program;
+   return this._switchState.attributes[programName].watering_program;
   }
 
   combinedWateringProgram() {
@@ -60,7 +60,18 @@ class BhyveCard extends LitElement {
        this.wateringProgram('program_d'),
        this.wateringProgram('program_e')
      ];
+	  console.log(programs);
      return programs.flat().toSorted();
+  }
+
+  nextWatering(program) {
+    const now = Date.now();
+    for(const watering of program) {
+      if(Date.parse(watering) >= now) {
+        return watering;
+      }
+    }
+    return null;
   }
 
   render() {
@@ -70,7 +81,9 @@ class BhyveCard extends LitElement {
     const lastWateredTime = this._hass.formatEntityState(this._historyState);
     const lastWateredAmount = this._historyState.attributes.run_time;
     const smartWateringEnabled = this._switchState.attributes.smart_watering_enabled;
-    const nextWatering = this._hass.formatEntityState(this._historyState,this.combinedWateringProgram()[0]);
+    const nextWateringRaw = this.nextWatering(
+	    this.combinedWateringProgram());
+    const nextWatering = nextWateringRaw==null? "Unknown": this._hass.formatEntityState(this._historyState, nextWateringRaw);
     return html`
       <ha-card>
         <div class="card-content">

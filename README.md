@@ -2,7 +2,7 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
-This is a card for the [bhyve-home-assistant](https://github.com/sebr/bhyve-home-assistant) integration.
+This is a set of card for the [bhyve-home-assistant](https://github.com/sebr/bhyve-home-assistant) integration.
 
 ![Screenshot of Orbit B-Hyve Card](screenshot.png)
 
@@ -16,9 +16,28 @@ This is a card for the [bhyve-home-assistant](https://github.com/sebr/bhyve-home
 
 4. When you are prompted to reload the frontend, do so.
 
-## Usage
+## Usage - Per Device Card
 
-Select "Custom: Orbit B-Hyve Card" when adding a card to the dashboard. Configure it with the switch and history sensor entities created by the Orbit B-Hyve integration:
+Select "Custom: Orbit B-Hyve Zone Card" when adding a card to the dashboard. Configure it with the device ID and per-device and per-zone switch and sensor entities created by the Orbit B-Hyve integration:
+
+```
+   type: custom:bhyve-card
+   device: abcdef123
+   rain_delay: switch.some_rain_delay
+   battery_level: sensor.some_battery_level
+   programs:
+     - switch.some_program_a
+     - switch.some_program_b
+   zones:
+     - switch: switch.some_zone
+       history: sensor.some_zone_history
+     - switch: switch.some_other_zone
+       history: sensor.some_other_zone_history
+```
+
+## Usage - Per Zone Card
+
+Select "Custom: Orbit B-Hyve Zone Card" when adding a card to the dashboard. Configure it with the switch and history sensor entities created by the Orbit B-Hyve integration for the zone you want to report:
 
 ```
    type: custom:bhyve-card

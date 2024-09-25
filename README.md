@@ -35,6 +35,13 @@ Select "Custom: Orbit B-Hyve Zone Card" when adding a card to the dashboard. Con
        history: sensor.some_other_zone_history
 ```
 
+To find the IDs and entities, go to "Settings > Devices & Services > Devices" and click on your b-hyve device:
+
+* The device ID appears in the URL after `config/devices/device/`.
+* You can find the zone switch entity IDs by clicking on a zone under "Controls", clicking the gear icon and then copying the Entity ID field.
+* You can find the zone history entity IDs by clicking on a zone "history" entity under "Diagnostic", clicking the gear icon and then copying the Entity ID field.
+* You can find the program entity IDs by clicking on a program under "Configuration", clicking the gear icon and then copying the Entity ID field.
+
 ## Usage - Per Zone Card
 
 Select "Custom: Orbit B-Hyve Zone Card" when adding a card to the dashboard. Configure it with the switch and history sensor entities created by the Orbit B-Hyve integration for the zone you want to report:
@@ -44,3 +51,8 @@ Select "Custom: Orbit B-Hyve Zone Card" when adding a card to the dashboard. Con
    switch: switch.some_zone
    history: sensor.some_zone_history
 ```
+
+To find the entities, go to "Settings > Devices & Services > Devices" and click on your b-hyve device:
+
+* You can find the zone switch entity ID by clicking on the zone under "Controls", clicking the gear icon and then copying the Entity ID field.
+* You can find the zone history entity ID by clicking on the zone "history" entity under "Diagnostic", clicking the gear icon and then copying the Entity ID field.

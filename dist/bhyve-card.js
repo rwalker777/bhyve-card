@@ -201,28 +201,28 @@ class BhyveCard extends LitElement {
             </div>
           </div>
           <div style="display:flex;align-items:center;flex-direction:row">
-            <state-badge overrideIcon="mdi:water-pump"></state-badge>
+            <state-badge .overrideIcon=${"mdi:water-pump"}></state-badge>
             <div class="info">
               <span>Water now</span>
             </div>
 	    <ha-entity-toggle class="right" .stateObj="${switchState}"></ha-entity-toggle>
           </div>
           <div style="display:flex;align-items:center;flex-direction:row">
-            <state-badge overrideIcon="mdi:auto-mode"></state-badge>
+            <state-badge .overrideIcon=${"mdi:auto-mode"}></state-badge>
             <div class="info">
               <span>Smart Watering</span>
             </div>
 	    <ha-switch class="right" .checked="${smartWateringEnabled}" disabled="true"></ha-entity-toggle>
           </div>
           <div style="display:flex;align-items:center;flex-direction:row">
-            <state-badge overrideIcon="mdi:history"></state-badge>
+            <state-badge .overrideIcon=${"mdi:history"}></state-badge>
             <div class="info">
               <span>Last Watering</span>
 	      <div class="secondary">${lastWateredTime} for ${lastWateredAmount} min</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;flex-direction:row">
-            <state-badge overrideIcon="mdi:update"></state-badge>
+            <state-badge .overrideIcon=${"mdi:update"}></state-badge>
             <div class="info">
               <span>Next Watering</span>
 	      <div class="secondary">${nextWatering}</div>

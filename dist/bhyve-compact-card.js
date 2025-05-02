@@ -20,50 +20,16 @@ class BhyveCard extends LitElement {
   static getStubConfig() {
     return {
       device: "abc",
-      battery_level: "sensor.bhyve_battery_level",
       rain_delay: "sensor.bhyve_rain_delay",
-      smart_program: "switch.smart_watering_program",
-      programs: ["switch.bhyve_program_n"],
       zones: [{
-	switch: "switch.zone_n",
-	history: "sensor.zone_history_n"
+	      switch: "switch.zone_n",
+	      history: "sensor.zone_history_n"
       }]
     }
   }
 
   getCardSize() {
     return 4;
-  }
-
-  wateringProgram(switchState, programName) {
-    if(!(programName in switchState.attributes)) {
-      return [];
-    }
-    if(!switchState.attributes[programName].enabled) {
-      return [];
-    }
-   return switchState.attributes[programName].watering_program;
-  }
-
-  combinedWateringProgram(switchState) {
-     const programs = [
-       this.wateringProgram(switchState, 'program_a'),
-       this.wateringProgram(switchState, 'program_b'),
-       this.wateringProgram(switchState, 'program_c'),
-       this.wateringProgram(switchState, 'program_d'),
-       this.wateringProgram(switchState, 'program_e')
-     ];
-     return programs.flat().toSorted();
-  }
-
-  nextWatering(program) {
-    const now = Date.now();
-    for(const watering of program) {
-      if(Date.parse(watering) >= now) {
-        return watering;
-      }
-    }
-    return null;
   }
 
   render() {
@@ -107,7 +73,7 @@ class BhyveCard extends LitElement {
     const nextWatering = nextWateringRaw==null? "Unknown": this._hass.formatEntityState(historyState, nextWateringRaw);    
     return html`
       <div style="display:flex;align-items:center;flex-direction:row">
-	<ha-domain-icon .hass=${this._hass} brandFallback="true" .domain="bhyve"></ha-domain-icon>
+	      <ha-domain-icon .hass=${this._hass} brandFallback="true" .domain="bhyve"></ha-domain-icon>
 	<h1 class="card-header">
 	  ${device? (device.name_by_user? device.name_by_user : device.name) : "Smart Watering"}
 	</h1>
@@ -126,10 +92,45 @@ class BhyveCard extends LitElement {
 	      <div class="secondary">${nextWatering}</div>
             </div>
           </div>  
-      ${this.renderRainDelay()}
+
     `;
   }
 
+  renderWatering(switchState, historyState) {
+    const lastWateredTime = this._hass.formatEntityState(historyState);
+    const lastWateredAmount = historyState.attributes.run_time;
+    const nextWateringRaw = this.nextWatering(
+	    this.combinedWateringProgram(switchState));
+    const nextWatering = nextWateringRaw==null? "Unknown": this._hass.formatEntityState(historyState, nextWateringRaw);
+    return html`
+          <div class="divider"></div>
+          <div style="display:flex;align-items:center;flex-direction:row">
+  	      <div class="secondary">${lastWateredTime} for ${lastWateredAmount} min</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;flex-direction:row">
+            <state-badge .overrideIcon=${"mdi:update"}></state-badge>
+            <div class="info">
+              <span>Next Watering</span>
+	      <div class="secondary">${nextWatering}</div>
+            </div>
+          </div>
+      `;
+  }
+
+  renderDevice() {
+    const device = this._config.device ? this._hass.devices[this._config.device] : undefined;
+    return html`
+      <div style="display:flex;align-items:center;flex-direction:row">
+	      <ha-domain-icon .hass=${this._hass} brandFallback="true" .domain="bhyve"></ha-domain-icon>
+	      <h1 class="card-header">
+	        ${device? (device.name_by_user? device.name_by_user : device.name) : "Smart Watering"}
+	      </h1>
+      </div>
+      ${this.renderRainDelay()}
+      ${this.renderWatering()}
+    `;
+  }
 
   static get styles() {
     return css`

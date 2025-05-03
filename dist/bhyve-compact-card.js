@@ -32,6 +32,27 @@ class BhyveCompactCard extends LitElement {
     return 4;
   }
 
+  combinedWateringProgram(switchState) {
+     const programs = [
+       this.wateringProgram(switchState, 'program_a'),
+       this.wateringProgram(switchState, 'program_b'),
+       this.wateringProgram(switchState, 'program_c'),
+       this.wateringProgram(switchState, 'program_d'),
+       this.wateringProgram(switchState, 'program_e')
+     ];
+     return programs.flat().toSorted();
+  }
+
+  nextWatering(program) {
+    const now = Date.now();
+    for(const watering of program) {
+      if(Date.parse(watering) >= now) {
+        return watering;
+      }
+    }
+    return null;
+  }
+
   render() {
     if (!this._hass || !this._config) {
       return html``;
@@ -97,7 +118,7 @@ class BhyveCompactCard extends LitElement {
 	      </h1>
       </div>
       ${this.renderRainDelay()}
-      ${this.renderWatering()}
+      ${this.renderWatering(this._hass.states[zone.switch], this._hass.states[zone.history])}
     `;
   }
 

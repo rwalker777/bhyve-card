@@ -65,37 +65,6 @@ class BhyveCard extends LitElement {
     }
   }
 
-  renderDevice() {
-    const device = this._config.device ? this._hass.devices[this._config.device] : undefined;
-    const lastWateredTime = this._hass.formatEntityState(historyState);    
-    const nextWateringRaw = this.nextWatering(
-	    this.combinedWateringProgram(switchState));
-    const nextWatering = nextWateringRaw==null? "Unknown": this._hass.formatEntityState(historyState, nextWateringRaw);    
-    return html`
-      <div style="display:flex;align-items:center;flex-direction:row">
-	      <ha-domain-icon .hass=${this._hass} brandFallback="true" .domain="bhyve"></ha-domain-icon>
-	<h1 class="card-header">
-	  ${device? (device.name_by_user? device.name_by_user : device.name) : "Smart Watering"}
-	</h1>
-      </div>
-          <div style="display:flex;align-items:center;flex-direction:row">
-            <state-badge .overrideIcon=${"mdi:history"}></state-badge>
-            <div class="info">
-              <span>Last Watering</span>
-	      <div class="secondary">${lastWateredTime} for ${lastWateredAmount} min</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;flex-direction:row">
-            <state-badge .overrideIcon=${"mdi:update"}></state-badge>
-            <div class="info">
-              <span>Next Watering</span>
-	      <div class="secondary">${nextWatering}</div>
-            </div>
-          </div>  
-
-    `;
-  }
-
   renderWatering(switchState, historyState) {
     const lastWateredTime = this._hass.formatEntityState(historyState);
     const lastWateredAmount = historyState.attributes.run_time;

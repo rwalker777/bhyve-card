@@ -21,10 +21,6 @@ class BhyveCompactCard extends LitElement {
     return {
       device: "abc",
       rain_delay: "sensor.bhyve_rain_delay",
-      zones: [{
-	      switch: "switch.zone_n",
-	      history: "sensor.zone_history_n"
-      }]
     }
   }
 
